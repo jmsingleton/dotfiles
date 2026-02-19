@@ -1,0 +1,204 @@
+{
+  // Single-monitor desktop: pin to HDMI-A-1 (remove this line to let Waybar follow whatever output exists)
+  "output": ["HDMI-A-1"],
+
+  "layer": "top",
+  "position": "top",
+  "height": 32,
+  "spacing": 8,
+
+  // Reserve space so windows don't cover it
+  "exclusive": true,
+  "passthrough": false,
+
+  // Nice when iterating
+  "reload_style_on_change": true,
+
+  "modules-left": [
+    "hyprland/workspaces",
+    "hyprland/submap"
+  ],
+  "modules-center": [
+    "hyprland/window"
+  ],
+  "modules-right": [
+    "mpris",
+    "gamemode",
+    "idle_inhibitor",
+    "custom/dnd",
+    "pulseaudio",
+    "network",
+    "disk",
+    "cpu",
+    "memory",
+    "temperature",
+    "custom/weather",
+    "clock",
+    "tray",
+    "custom/power"
+  ],
+
+  "hyprland/workspaces": {
+    "format": "{icon}",
+    "format-icons": {
+      "1": "1", "2": "2", "3": "3", "4": "4", "5": "5",
+      "6": "6", "7": "7", "8": "8", "9": "9", "10": "10",
+      "urgent": "!",
+      "active": "●",
+      "default": "○"
+    },
+    "all-outputs": true,
+    "active-only": false,
+    "on-click": "activate",
+    "on-scroll-up": "hyprctl dispatch workspace e+1",
+    "on-scroll-down": "hyprctl dispatch workspace e-1",
+    "persistent-workspaces": {
+      "*": 10
+    }
+  },
+
+  "hyprland/window": {
+    "format": "{title}",
+    "max-length": 90,
+    "separate-outputs": true
+  },
+
+  "hyprland/submap": {
+    "format": "󰌌 {}",
+    "tooltip": true,
+    "tooltip-format": "Submap: {submap}"
+  },
+
+  "mpris": {
+    "format": "{player_icon} {dynamic}",
+    "format-paused": "{player_icon} <i>{dynamic}</i>",
+    "dynamic-len": 40,
+    "player-icons": {
+      "spotify": "󰓇",
+      "firefox": "󰈹",
+      "default": "󰎆"
+    },
+    "status-icons": {
+      "paused": "󰏤"
+    },
+    "tooltip": true,
+    "tooltip-format": "{player}: {title}\n{artist}",
+    "on-click": "playerctl play-pause",
+    "on-click-right": "playerctl next",
+    "on-scroll-up": "playerctl next",
+    "on-scroll-down": "playerctl previous"
+  },
+
+  "gamemode": {
+    "format": "{glyph}",
+    "format-alt": "{glyph} {count}",
+    "glyph": "󰊗",
+    "hide-not-running": true,
+    "use-icon": false,
+    "icon-size": 0,
+    "tooltip": true,
+    "tooltip-format": "Gamemode: {count} games running"
+  },
+
+  "idle_inhibitor": {
+    "format": "{icon}",
+    "format-icons": {
+      "activated": "󰛐",
+      "deactivated": "󰛑"
+    },
+    "tooltip": true,
+    "tooltip-format": "Idle inhibitor: {status}"
+  },
+
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "format-muted": "󰝟 muted",
+    "format-icons": {
+      "headphone": "󰋋",
+      "hands-free": "󰋎",
+      "headset": "󰋎",
+      "phone": "󰏲",
+      "portable": "󰏲",
+      "car": "󰄋",
+      "default": ["󰕿", "󰖀", "󰕾"]
+    },
+    "scroll-step": 5,
+    "on-click": "pavucontrol",
+    "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+  },
+
+  "network": {
+    "format-wifi": "󰤨 {essid} {signalStrength}%",
+    "format-ethernet": "󰈀 {ipaddr}/{cidr}",
+    "format-linked": "󰈀 {ifname} (no IP)",
+    "format-disconnected": "󰤭 disconnected",
+    "tooltip": true,
+    "tooltip-format": "{ifname}\nIP: {ipaddr}/{cidr}\nGW: {gwaddr}"
+  },
+
+  "disk": {
+    "interval": 30,
+    "format": "󰋊 {percentage_used}%",
+    "path": "/",
+    "tooltip": true,
+    "tooltip-format": "{path}: {used} / {total} ({percentage_used}%)"
+  },
+
+  "cpu": {
+    "interval": 5,
+    "format": "󰍛 {usage}%",
+    "tooltip": false
+  },
+
+  "memory": {
+    "interval": 5,
+    "format": "󰘚 {percentage}%",
+    "tooltip": true,
+    "tooltip-format": "RAM: {used:0.1f}G / {total:0.1f}G"
+  },
+
+  "temperature": {
+    "interval": 5,
+    "critical-threshold": 85,
+    "format": "󰔄 {temperatureC}°C",
+    "tooltip": true
+  },
+
+  "clock": {
+    "format": "󰥔 {:%a %b %d  %H:%M}",
+    "format-alt": "󰥔 {:%Y-%m-%d %H:%M:%S}",
+    "tooltip": true,
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+  },
+
+  "tray": {
+    "spacing": 10
+  },
+
+  "custom/weather": {
+    "format": "{}",
+    "interval": 900,
+    "exec": "curl -s 'wttr.in/38.35,-122.52?format=%c+%t' | tr -d '+'",
+    "tooltip": true,
+    "tooltip-format": "{}",
+    "exec-on-event": false
+  },
+
+  "custom/dnd": {
+    "format": "{}",
+    "interval": "once",
+    "signal": 1,
+    "exec": "if dunstctl is-paused | grep -q true; then echo '󰂛'; else echo '󰂚'; fi",
+    "on-click": "dunstctl set-paused toggle && pkill -RTMIN+1 waybar",
+    "tooltip": true,
+    "tooltip-format": "Toggle Do Not Disturb"
+  },
+
+  "custom/power": {
+    "format": "⏻",
+    "tooltip": true,
+    "tooltip-format": "Power menu",
+    "on-click": "bash -lc 'command -v wlogout >/dev/null && wlogout || systemctl poweroff'",
+    "on-click-right": "bash -lc 'systemctl reboot'"
+  }
+}

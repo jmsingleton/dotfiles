@@ -1,0 +1,140 @@
+/* Rosé Pine-ish Waybar (desktop-first) */
+
+* {
+  font-family: "JetBrainsMono Nerd Font", "JetBrainsMono", monospace;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  padding: 0 6px;
+  min-height: 0;
+}
+
+window#waybar {
+  background-color: rgba(25, 23, 36, 0.95); /* base */
+  color: #e0def4;                            /* text */
+  border-bottom: 1px solid #2a273f;          /* subtle divider */
+}
+
+/* ---------- Workspaces ---------- */
+
+#workspaces {
+  margin: 0 4px;
+}
+
+#workspaces button {
+  background: transparent;
+  color: #e0def4;
+  padding: 0 10px;
+  margin: 0 2px;
+  border-radius: 6px;
+  transition: background-color 120ms ease, color 120ms ease;
+}
+
+#workspaces button:hover {
+  background-color: rgba(156, 207, 216, 0.12); /* subtle accent hover */
+}
+
+/* Waybar uses .active for current workspace in most setups */
+#workspaces button.active {
+  background-color: rgba(49, 116, 143, 0.65); /* pine */
+  color: #e0def4;
+}
+
+/* If your build uses .focused, keep it too */
+#workspaces button.focused {
+  background-color: rgba(49, 116, 143, 0.65);
+  color: #e0def4;
+}
+
+#workspaces button.urgent {
+  background-color: rgba(235, 111, 146, 0.85); /* love */
+  color: #191724;
+}
+
+/* ---------- Common module pill style ---------- */
+
+#clock,
+#cpu,
+#memory,
+#disk,
+#temperature,
+#network,
+#pulseaudio,
+#custom-media,
+#tray,
+#idle_inhibitor,
+#gamemode,
+#custom-power,
+#custom-weather,
+#custom-dnd,
+#window,
+#submap,
+#mpris {
+  background-color: rgba(31, 29, 46, 0.95); /* surface */
+  margin: 0 4px;
+  padding: 0 10px;
+  border-radius: 6px;
+  color: #e0def4;
+}
+
+/* Center window title pill looks nicer a bit softer */
+#window {
+  background-color: rgba(31, 29, 46, 0.70);
+  padding: 0 12px;
+}
+
+/* ---------- Audio ---------- */
+
+#pulseaudio.muted {
+  background-color: rgba(64, 61, 82, 0.95); /* muted surface */
+  color: #908caa;                           /* subtle */
+}
+
+/* ---------- Idle inhibitor ---------- */
+
+#idle_inhibitor.activated {
+  background-color: rgba(156, 207, 216, 0.18); /* foam glow */
+  color: #9ccfd8;
+}
+
+/* ---------- Tray attention ---------- */
+
+#tray > .needs-attention {
+  background-color: rgba(235, 111, 146, 0.85);
+  color: #191724;
+  border-radius: 6px;
+}
+
+/* ---------- Gamemode ---------- */
+
+#gamemode {
+  background-color: rgba(246, 193, 119, 0.18); /* gold glow */
+  color: #f6c177;
+}
+
+/* ---------- Power button ---------- */
+
+/* ---------- Weather ---------- */
+
+#custom-weather {
+  background-color: rgba(62, 143, 176, 0.18);
+  color: #9ccfd8;
+}
+
+/* ---------- Do Not Disturb ---------- */
+
+#custom-dnd {
+  color: #908caa;
+}
+
+/* ---------- Power button ---------- */
+
+#custom-power {
+  background-color: rgba(235, 111, 146, 0.18);
+  color: #eb6f92;
+  padding: 0 12px;
+}
+
+#custom-power:hover {
+  background-color: rgba(235, 111, 146, 0.28);
+}
