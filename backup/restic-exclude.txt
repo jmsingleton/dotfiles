@@ -1,0 +1,15 @@
+.cache
+.cargo/registry
+.cargo/git
+.rustup/toolchains
+.local/share/Trash
+.local/share/Steam
+.npm/_cacache
+.thumbnails
+node_modules
+target
+__pycache__
+.venv
+*.pyc
+.git
+lost+found
