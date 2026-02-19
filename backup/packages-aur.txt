@@ -1,0 +1,7 @@
+cbonsai
+claude-code
+mpvpaper
+sddm-sugar-dark
+sunshine
+sunwait
+wlogout

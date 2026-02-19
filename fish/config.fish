@@ -33,6 +33,19 @@ alias lg="lazygit"
 alias du="dust"
 alias z="zoxide query --interactive"
 
+# Abbreviations (expand in-place so history shows real commands)
+abbr -a gs git status
+abbr -a gd git diff
+abbr -a gl git log --oneline -20
+abbr -a gp git push
+abbr -a gc git commit
+abbr -a ga git add
+abbr -a gco git checkout
+abbr -a gb git branch
+abbr -a pacs sudo pacman -S
+abbr -a pacr sudo pacman -Rns
+abbr -a pacq pacman -Qs
+
 # Smart cd replacement
 zoxide init fish | source
 
