@@ -4,7 +4,7 @@ set -euo pipefail
 cd "$(dirname "$0")"
 
 packages_common=(fish ghostty btop lazygit tmux)
-packages_macos=(aerospace)
+packages_macos=()
 packages_linux=(hypr waybar dunst rofi wlogout)
 
 case "$(uname)" in
