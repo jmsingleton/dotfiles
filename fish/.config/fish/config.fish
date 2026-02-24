@@ -45,6 +45,7 @@ alias cat="bat --style=plain"
 switch (uname)
     case Darwin
         alias update="brew update && brew upgrade"
+        alias clip="pbcopy"
     case Linux
         alias update="sudo pacman -Syu"
         alias aurupdate="yay -Syu"
