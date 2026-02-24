@@ -1,7 +1,4 @@
 {
-  // Single-monitor desktop: pin to HDMI-A-1 (remove this line to let Waybar follow whatever output exists)
-  "output": ["HDMI-A-1"],
-
   "layer": "top",
   "position": "top",
   "height": 32,
@@ -160,7 +157,7 @@
   "temperature": {
     "interval": 5,
     "critical-threshold": 85,
-    "format": "󰔄 {temperatureC}°C",
+    "format": "󰔄 {temperatureF}°F",
     "tooltip": true
   },
 
@@ -178,7 +175,7 @@
   "custom/weather": {
     "format": "{}",
     "interval": 900,
-    "exec": "curl -s 'wttr.in/38.35,-122.52?format=%c+%t' | tr -d '+'",
+    "exec": "curl -s 'wttr.in/Glen+Ellen,CA?u&format=%c+%t' | tr -d '+'",
     "tooltip": true,
     "tooltip-format": "{}",
     "exec-on-event": false

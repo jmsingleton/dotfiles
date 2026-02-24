@@ -1,0 +1,8 @@
+^backup$
+^\.claude$
+^\.git$
+^CLAUDE\.md$
+^README\.md$
+^install\.sh$
+^\.gitignore$
+^\.stow-local-ignore$
