@@ -45,4 +45,4 @@ font-family = JetBrainsMono Nerd Font
 font-size = 14
 theme = dark:Rose Pine Moon,light:Rose Pine Dawn
 background-opacity = .9
-command = /opt/homebrew/bin/tmux new-session -A -s main
+command = tmux new-session -A -s main
