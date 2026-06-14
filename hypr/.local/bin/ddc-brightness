@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# Adjust HP Z27k G3 brightness over DDC/CI (VCP 0x10) and show a dunst OSD.
+# Can't use brightnessctl here: this is a desktop with an external monitor and
+# no backlight class device. Usage: ddc-brightness +10 | -10
+set -uo pipefail
+
+delta="${1:?usage: ddc-brightness +N|-N}"
+
+# DDC writes are slow (~hundreds of ms). Drop the keypress if one is already in
+# flight so key-repeat doesn't pile up a queue of i2c ops.
+exec 9>/tmp/ddc-brightness.lock
+flock -n 9 || exit 0
+
+cur=$(ddcutil getvcp 10 --brief 2>/dev/null | awk '{print $4}')
+[ -n "${cur:-}" ] || exit 0
+
+new=$(( cur + delta ))
+if [ "$new" -gt 100 ]; then new=100; fi
+if [ "$new" -lt 0 ]; then new=0; fi
+
+ddcutil setvcp 10 "$new" --noverify
+notify-send -h string:x-dunst-stack-tag:brightness -h int:value:"$new" "Brightness"

@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# Idle display power-saving for the HP Z27k G3 (external monitor over DDC/CI).
+#
+# Why not just turn the panel off:
+#   - `hyprctl dispatch dpms off` does a DRM hot-unplug that crashes Hyprland on
+#     amdgpu + this monitor over HDMI (see hypridle.conf / git history).
+#   - DDC power-off (VCP D6 = 04) works, but the monitor's DDC channel goes
+#     unresponsive in standby, so the wake command (D6 01) fails intermittently
+#     and the screen can get stuck off. Verified flaky on this panel.
+#
+# So instead: dim the backlight to 0 (VCP 10). The monitor stays powered, DDC
+# stays responsive, restore is reliable, and the backlight is most of an LCD's
+# power draw. Also pause the mpvpaper video wallpaper so the GPU stops decoding.
+set -uo pipefail
+STATE_FILE="/tmp/ddc-display-idle.brightness"
+
+case "${1:-}" in
+  off)
+    cur=$(ddcutil getvcp 10 --brief 2>/dev/null | awk '{print $4}')
+    [ -n "${cur:-}" ] && echo "$cur" > "$STATE_FILE"
+    ddcutil setvcp 10 0 --noverify
+    pkill -STOP -x mpvpaper 2>/dev/null || true
+    ;;
+  on)
+    pkill -CONT -x mpvpaper 2>/dev/null || true
+    prev=$(cat "$STATE_FILE" 2>/dev/null || echo 50)
+    ddcutil setvcp 10 "$prev" --noverify
+    ;;
+  *)
+    echo "usage: ddc-display-idle off|on" >&2
+    exit 1
+    ;;
+esac

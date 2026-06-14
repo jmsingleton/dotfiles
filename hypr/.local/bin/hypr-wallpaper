@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+LAT="38.35N"
+LON="122.52W"
+
+DAY_WALL="$HOME/.wallpapers/day.mp4"
+NIGHT_WALL="$HOME/.wallpapers/night.mp4"
+
+MONITOR="HDMI-A-1"
+
+MPV_OPTS="no-audio loop-file=inf vf=fps=30 hwdec=vaapi hwdec-codecs=all gpu-context=wayland profile=fast video-sync=display-resample scale=bilinear cscale=bilinear"
+
+is_daytime() {
+  sunwait poll daylight "$LAT" "$LON" >/dev/null 2>&1
+  [ $? -eq 2 ]
+}
+
+cleanup() {
+  pkill -f "mpvpaper.*$MONITOR" 2>/dev/null || true
+}
+trap cleanup EXIT INT TERM
+
+LAST_STATE=""
+while true; do
+  if is_daytime; then
+    STATE="day"
+    WALL="$DAY_WALL"
+  else
+    STATE="night"
+    WALL="$NIGHT_WALL"
+  fi
+
+  if [ "$STATE" != "$LAST_STATE" ]; then
+    pkill -f "mpvpaper.*$MONITOR" 2>/dev/null || true
+    sleep 0.5
+    mpvpaper -p -o "$MPV_OPTS" "$MONITOR" "$WALL" &
+    LAST_STATE="$STATE"
+  fi
+
+  sleep 600
+done
