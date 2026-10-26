@@ -99,7 +99,13 @@ end
 zoxide init fish | source
 
 # Claude Code in tmux
-function cc --description 'Start Claude Code in a tmux session'
-    set name (basename (pwd))
-    tmux new-session -s $name "claude"
+# Own window named after the dir; drops back to a shell when claude exits so the
+# window survives. Args pass through, e.g. `cc --continue` to resume.
+function cc --description 'Start Claude Code in a tmux window'
+    set name cc-(basename (pwd))
+    if set -q TMUX
+        tmux new-window -n $name -c (pwd) "claude $argv; exec fish"
+    else
+        tmux new-session -A -s $name -c (pwd) "claude $argv; exec fish"
+    end
 end
