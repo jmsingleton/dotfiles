@@ -109,3 +109,7 @@ function cc --description 'Start Claude Code in a tmux window'
         tmux new-session -A -s $name -c (pwd) "claude $argv; exec fish"
     end
 end
+
+# bun
+set --export BUN_INSTALL "$HOME/.bun"
+fish_add_path $BUN_INSTALL/bin
