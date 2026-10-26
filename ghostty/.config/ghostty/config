@@ -46,3 +46,8 @@ font-size = 14
 theme = dark:Rose Pine Moon,light:Rose Pine Dawn
 background-opacity = .9
 command = tmux new-session -A -s main
+
+# OSC52 clipboard: let tmux/SSH sessions copy to the local clipboard, but prompt
+# before anything (including remote hosts) reads it.
+clipboard-read = ask
+clipboard-write = allow
