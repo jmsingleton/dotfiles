@@ -26,4 +26,12 @@ if [[ "$(uname)" == "Darwin" && -f karabiner/.config/karabiner/karabiner.json ]]
     cp -v karabiner/.config/karabiner/karabiner.json "$HOME/.config/karabiner/karabiner.json"
 fi
 
+# Ghostty on macOS also loads Application Support/config on top of ~/.config/ghostty —
+# remove it so the stowed config is the single source of truth
+if [[ "$(uname)" == "Darwin" ]]; then
+    ghostty_appsupport="$HOME/Library/Application Support/com.mitchellh.ghostty/config"
+    [[ -f "$ghostty_appsupport" ]] && mv -v "$ghostty_appsupport" "$ghostty_appsupport.bak"
+    echo "command = /opt/homebrew/bin/tmux new-session -A -s main" > ghostty/.config/ghostty/local
+fi
+
 echo "Done! All dotfiles stowed."
